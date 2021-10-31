@@ -3,10 +3,14 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ShortestDistanceComponent } from './shortest-distance/shortest-distance.component';
+import { CellComponent } from './shortest-distance/cell/cell.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ShortestDistanceComponent,
+    CellComponent
   ],
   imports: [
     BrowserModule,
