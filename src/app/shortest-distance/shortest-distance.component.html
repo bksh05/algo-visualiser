@@ -1,11 +1,17 @@
 <div class="graph-container">
-    <div class="row" *ngFor="let row of graph">
-        <ng-container class="cell" *ngFor="let cell of row">
-            <app-cell style="display: flex; height: 100%; width: 100%; flex-direction: column;"
-                [visited] = "cell.visited"
-                [(wall)] = "cell.wall"
-                [(shouldAddWall)] = "shouldAddWall"
-            ></app-cell>
-        </ng-container>
-    </div>
+  <div class="row" *ngFor="let row of graph; let i  = index">
+    <ng-container class="cell" *ngFor="let cell of row; let j = index;">
+      <div
+        #cells
+        class="unvisited"
+        (dblclick)="startWallCreation()"
+        (mouseenter)="createWall(i,j)"
+        (click)="stopWallCreation()"
+        [ngClass]="{ wall: cell.wall }"
+        id="{{i}}-{{j}}"
+      ></div>
+
+    </ng-container>
+  </div>
+  <button (click)="visualize()">visualize</button>
 </div>
