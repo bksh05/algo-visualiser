@@ -2,12 +2,10 @@
   <div class="row" *ngFor="let row of graph; let i  = index">
     <ng-container class="cell" *ngFor="let cell of row; let j = index;">
       <div
-        #cells
-        class="unvisited"
         (dblclick)="startWallCreation()"
         (mouseenter)="createWall(i,j)"
         (click)="stopWallCreation()"
-        [ngClass]="{ wall: cell.wall }"
+        [ngClass]="{ wall: cell.wall , unvisited: !cell.wall}"
         id="{{i}}-{{j}}"
       ></div>
 

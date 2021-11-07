@@ -13,15 +13,13 @@ import { BFS } from '../algorithms/bfs';
   styleUrls: ['./shortest-distance.component.scss'],
 })
 export class ShortestDistanceComponent implements OnInit {
-  @ViewChildren('cells') cells!: QueryList<ElementRef>;
 
   public graph = new Array<Array<any>>();
 
   private rowCount = 35;
   private colCount = 70;
 
-  private modes = { fast : 0.05 , medium : 0.5 , slow: 1}
-
+  private modes = { fast: 0.05, medium: 0.5, slow: 1 };
   private currentMode = 'fast';
 
   public shouldAddWall = false;
@@ -46,29 +44,65 @@ export class ShortestDistanceComponent implements OnInit {
   }
 
   visualize() {
+    this.resetGraph();
     const animationOrder = BFS([15, 15], [30, 30], this.graph);
     this.animate(animationOrder);
   }
 
-  delay(ms : number){ return new Promise(resolve => setTimeout(resolve, ms))}
+  resetGraph() {
+    for (let i = 0; i < this.rowCount; i++) {
+      for (let j = 0; j < this.colCount; j++) {
+        this.graph[i][j].visited = false;
+        const ele = document.getElementById(`${i}-${j}`);
+
+        if (ele) {
+          ele.classList.remove('visited');
+          ele.classList.remove('current');
+          ele.classList.add('unvisited');
+        }
+      }
+    }
+  }
 
   animate(animationOrder: Array<Array<number>>) {
-    animationOrder.forEach((point , i) => {
-      if (this.cells.length > 0) {
-        const element = this.cells.find(
-          (cell) => cell.nativeElement.id === `${point[0]}-${point[1]}`
-        );
-        setTimeout(async() => {
-          element?.nativeElement.classList.remove('unvisited');
-          element?.nativeElement.classList.add('current');
-        } , i*200*this.modes['fast']);
-        setTimeout(async() => {
-          element?.nativeElement.classList.remove('current');
-          element?.nativeElement.classList.add('visited');
-        } , (i*200*this.modes['fast'] + 8));
+    const index = -1;
+    let flag = false;
 
-      }
-    });
+    function animateCell(index: number) {
+  
+        if (!flag) {
+          flag = true;
+          setTimeout(async () => {
+            const element = document.getElementById(
+              `${animationOrder[index][0]}-${animationOrder[index][1]}`
+            );
+            if (element) {
+              element.classList.remove('unvisited');
+              element.classList.add('current');
+            }
+            if (index < animationOrder.length - 1) {
+              animateCell(flag ? index : index + 1);
+            }
+          }, 10);
+        } else {
+          flag = false;
+          setTimeout(async () => {
+            const element = document.getElementById(
+              `${animationOrder[index][0]}-${animationOrder[index][1]}`
+            );
+            if (element) {
+              element.classList.remove('current');
+              element.classList.add('visited');
+            }
+            if (index < animationOrder.length - 1) {
+              animateCell(flag ? index : index + 1);
+            }
+          }, 10);
+        }
+    
+    }
+
+    animateCell(index + 1);
   }
 
   createWall(i: number, j: number) {
