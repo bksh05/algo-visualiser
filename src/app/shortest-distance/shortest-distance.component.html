@@ -1,17 +1,21 @@
-<div class="graph-container">
-  <div class="row" *ngFor="let row of graph; let i  = index">
-    <ng-container class="cell" *ngFor="let cell of row; let j = index;">
+<div class="graph-container" #graphContainer>
+  <div class="row" *ngFor="let row of graph; let i = index">
+    <ng-container class="cell" *ngFor="let cell of row; let j = index">
       <div
-        (dblclick)="startWallCreation(i,j)"
-        (mouseenter)="createWall(i,j)"
+        (dblclick)="startWallCreation(i, j)"
+        (mouseenter)="createWall(i, j)"
         (click)="stopWallCreation()"
-        [ngClass]="{ wall: cell.wall , unvisited: !cell.wall, start: i === startPoint[0] && j === startPoint[1] , end: i === endPoint[0] && j === endPoint[1]}"
-        (dragstart)="onDragStartEvent(i,j)"
-        (dragover)="changeStart(i , j);"
+        (dragstart)="onDragStartEvent(i, j)"
+        (dragover)="changeStart(i, j)"
         (drop)="resetModes()"
-        id="{{i}}-{{j}}"
+        id="{{ i }}-{{ j }}"
+        [ngClass]="{
+          wall: cell.wall,
+          start: i === startPoint[0] && j === startPoint[1],
+          end: i === endPoint[0] && j === endPoint[1]
+        }"
+        class="unvisited"
       ></div>
-
     </ng-container>
   </div>
   <button (click)="visualize()">visualize</button>

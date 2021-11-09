@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { BFS } from '../algorithms/bfs';
 
 @Component({
@@ -6,32 +12,36 @@ import { BFS } from '../algorithms/bfs';
   templateUrl: './shortest-distance.component.html',
   styleUrls: ['./shortest-distance.component.scss'],
 })
-export class ShortestDistanceComponent implements OnInit {
+export class ShortestDistanceComponent implements OnInit, AfterViewInit {
+  @ViewChild('graphContainer') graphContainer?: ElementRef;
+
   public graph = new Array<Array<any>>();
 
-  public rowCount = 35;
-  public colCount = 70;
+  public rowCount = 0;
+  public colCount = 0;
 
-  public startPoint = [
-    Math.round((1 / 2) * this.rowCount),
-    Math.round((1 / 4) * this.colCount),
-  ];
+  public startPoint = [0, 0];
 
-  public endPoint = [
-    Math.round((1 / 2) * this.rowCount),
-    Math.round((3 / 4) * this.colCount),
-  ];
+  public endPoint = [0, 0];
 
   public shouldAddWall = false;
 
   public changeStartPointMode = false;
   public changeEndPointMode = false;
 
-  constructor() {
-    this.initializeGraph();
-  }
+  constructor() {}
 
   ngOnInit(): void {}
+
+  ngAfterViewInit() {
+    if (this.graphContainer) {
+      this.rowCount =
+        Math.round(this.graphContainer.nativeElement.offsetHeight / 32) - 1;
+      this.colCount =
+        Math.round(this.graphContainer.nativeElement.offsetWidth / 32) - 1;
+      this.initializeGraph();
+    }
+  }
 
   initializeGraph() {
     for (let i = 0; i < this.rowCount; i++) {
@@ -44,6 +54,16 @@ export class ShortestDistanceComponent implements OnInit {
       }
       this.graph.push(cells);
     }
+
+    this.startPoint = [
+      Math.round((1 / 2) * this.rowCount),
+      Math.round((1 / 4) * this.colCount),
+    ];
+
+    this.endPoint = [
+      Math.round((1 / 2) * this.rowCount),
+      Math.round((3 / 4) * this.colCount),
+    ];
   }
 
   visualize() {

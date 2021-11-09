@@ -1,76 +1,71 @@
-.column{
-    display: flex;
-    flex-direction: column;
+.column {
+  display: flex;
+  flex-direction: column;
 }
 
-.row{
-    display: flex;
-    flex-direction: row;
+.row {
+  display: flex;
+  flex-direction: row;
 }
 
 .graph-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: auto;
+  height: 100%;
+  width: 100%;
 }
 
-
-
-.current{
-    @extend .unvisited;
-    border: thin solid rgb(175, 216, 248) !important;
-    background-color: rgb(255, 254, 106, 0.5) !important;
-  }
-
-
-.unvisited{
-    display: flex;
-    height: 20px;
-    width: 20px;
-    padding: 5px;
-    border: thin solid rgba(72,72,72,0.5);
-    background-color: transparent;
+.current {
+  @extend .unvisited;
+  border: thin solid rgb(175, 216, 248) !important;
+  background-color: rgb(255, 254, 106, 0.5) !important;
 }
 
-.start{
-  background-image: url('../../assets/images/start.svg');
+.unvisited {
+  display: flex;
+  height: 20px;
+  width: 20px;
+  padding: 5px;
+  border: thin solid rgba(72, 72, 72, 0.5);
+  background-color: transparent;
+}
+
+.start {
+  background-image: url("../../assets/images/start.svg");
   background-repeat: no-repeat;
   background-position: center;
-
 }
 
-.end{
-  background: url('../../assets/images/end.svg');
+.end {
+  background: url("../../assets/images/end.svg");
   background-repeat: no-repeat;
   background-position: center;
-
 }
 
-.wall{
-    @extend .unvisited;
-    background-color: black;
-    border: 1px solid black;
-
+.wall {
+  background-color: black;
+  border: 1px solid black;
 }
 
-.visited{
-    @extend .unvisited;
-    border: 1px solid rgb(175, 216, 248);
-    animation-name: seenAnimation;
-    animation-duration: 1.5s;
-    animation-timing-function: ease-out;
-    animation-delay: 0;
-    animation-direction: alternate;
-    animation-iteration-count: 1;
-    animation-fill-mode: forwards;
-    animation-play-state: running;
+.visited {
+  @extend .unvisited;
+  border: 1px solid rgb(175, 216, 248);
+  animation-name: seenAnimation;
+  animation-duration: 1.5s;
+  animation-timing-function: ease-out;
+  animation-delay: 0;
+  animation-direction: alternate;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
 }
 
 @keyframes seenAnimation {
   0% {
-    transform: scale(.3);
+    transform: scale(0.3);
     background-color: rgba(0, 0, 66, 0.75);
     border-radius: 100%;
   }
@@ -81,11 +76,11 @@
 
   75% {
     transform: scale(1.2);
-    background-color: rgba(0, 217, 159, 0.75)
+    background-color: rgba(0, 217, 159, 0.75);
   }
 
   100% {
-    transform: scale(1.0);
+    transform: scale(1);
     background-color: rgba(0, 190, 218, 0.75);
   }
 }
