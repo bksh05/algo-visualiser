@@ -33,6 +33,20 @@
     background-color: transparent;
 }
 
+.start{
+  background-image: url('../../assets/images/start.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+
+}
+
+.end{
+  background: url('../../assets/images/end.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+
+}
+
 .wall{
     @extend .unvisited;
     background-color: black;

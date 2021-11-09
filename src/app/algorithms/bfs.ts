@@ -1,7 +1,5 @@
 import { getNeighbour } from './neighbour';
 
-const actions = ['ca', 'cs', 'ac', 'sc'];
-
 export function BFS(
   start: Array<number>,
   end: Array<number>,
@@ -18,10 +16,11 @@ export function BFS(
   while (queue.length > 0) {
     const current = queue.shift()!;
     orderVisited.push(current);
+    if (current[0] == end[0] && current[1] == end[1]) {
+      return orderVisited;
+    }
 
     const neighbours = getNeighbour(current[0], current[1], rowCount, colCount);
-
-   console.log(current[0], current[1] , neighbours);
    
     for (let i = 0; i < neighbours.length; i++) {
       if (
@@ -29,9 +28,7 @@ export function BFS(
         !matrix[neighbours[i][0]][neighbours[i][1]].wall
       ) {
         matrix[neighbours[i][0]][neighbours[i][1]].visited = true;
-        if (neighbours[i][0] == end[0] && neighbours[i][1] == end[1]) {
-          return orderVisited;
-        }
+        
         queue.push(neighbours[i]);
       }
     }

@@ -5,7 +5,7 @@
         (dblclick)="startWallCreation()"
         (mouseenter)="createWall(i,j)"
         (click)="stopWallCreation()"
-        [ngClass]="{ wall: cell.wall , unvisited: !cell.wall}"
+        [ngClass]="{ wall: cell.wall , unvisited: !cell.wall, start: i === startPoint[0] && j === startPoint[1] , end: i === endPoint[0] && j === endPoint[1]}"
         id="{{i}}-{{j}}"
       ></div>
 

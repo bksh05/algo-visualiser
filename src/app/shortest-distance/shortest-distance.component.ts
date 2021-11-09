@@ -13,19 +13,26 @@ import { BFS } from '../algorithms/bfs';
   styleUrls: ['./shortest-distance.component.scss'],
 })
 export class ShortestDistanceComponent implements OnInit {
-
   public graph = new Array<Array<any>>();
 
-  private rowCount = 35;
-  private colCount = 70;
+  public rowCount = 35;
+  public colCount = 70;
 
-  private modes = { fast: 0.05, medium: 0.5, slow: 1 };
-  private currentMode = 'fast';
+  public startPoint = [
+    Math.round((1 / 2) * this.rowCount),
+    Math.round((1 / 4) * this.colCount)
+  ];
+
+  public endPoint = [
+    Math.round((1 / 2) * this.rowCount),
+    Math.round((3 / 4) * this.colCount),
+  ];
 
   public shouldAddWall = false;
 
   constructor() {
     this.initializeGraph();
+    console.log(this.endPoint);
   }
 
   ngOnInit(): void {}
@@ -45,7 +52,7 @@ export class ShortestDistanceComponent implements OnInit {
 
   visualize() {
     this.resetGraph();
-    const animationOrder = BFS([15, 15], [30, 30], this.graph);
+    const animationOrder = BFS(this.startPoint, this.endPoint, this.graph);
     this.animate(animationOrder);
   }
 
