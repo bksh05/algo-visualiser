@@ -18,5 +18,6 @@
       ></div>
     </ng-container>
   </div>
-  <button (click)="visualize()">visualize</button>
 </div>
+
+<button (click)="visualize()" [disabled]="isAnimationInProgress">visualize</button>

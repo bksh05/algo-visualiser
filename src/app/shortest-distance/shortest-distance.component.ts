@@ -29,6 +29,8 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit {
   public changeStartPointMode = false;
   public changeEndPointMode = false;
 
+  public isAnimationInProgress = false;
+
   constructor() {}
 
   ngOnInit(): void {}
@@ -36,14 +38,17 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     if (this.graphContainer) {
       this.rowCount =
-        Math.round(this.graphContainer.nativeElement.offsetHeight / 32) - 1;
+        Math.floor(this.graphContainer.nativeElement.offsetHeight / 32) - 1;
       this.colCount =
-        Math.round(this.graphContainer.nativeElement.offsetWidth / 32) - 1;
+        Math.floor(this.graphContainer.nativeElement.offsetWidth / 32) - 1;
       this.initializeGraph();
     }
   }
 
   initializeGraph() {
+    if(this.isAnimationInProgress){
+      return;
+    }
     for (let i = 0; i < this.rowCount; i++) {
       const cells = [];
       for (let j = 0; j < this.colCount; j++) {
@@ -67,12 +72,18 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit {
   }
 
   visualize() {
+    if(this.isAnimationInProgress){
+      return;
+    }
     this.resetGraph();
     const animationOrder = BFS(this.startPoint, this.endPoint, this.graph);
     this.animate(animationOrder);
   }
 
   resetGraph() {
+    if(this.isAnimationInProgress){
+      return;
+    }
     for (let i = 0; i < this.rowCount; i++) {
       for (let j = 0; j < this.colCount; j++) {
         this.graph[i][j].visited = false;
@@ -88,10 +99,16 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit {
   }
 
   animate(animationOrder: Array<Array<number>>) {
+    if(this.isAnimationInProgress){
+      return;
+    }
     const index = -1;
     let flag = false;
 
-    function animateCell(index: number) {
+    const animateCell = (index: number) => {
+      if(index === animationOrder.length - 1){
+        this.isAnimationInProgress = false;
+      }
       if (!flag) {
         flag = true;
         setTimeout(async () => {
@@ -124,9 +141,13 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit {
     }
 
     animateCell(index + 1);
+    this.isAnimationInProgress = true;
   }
 
   createWall(row: number, column: number) {
+    if(this.isAnimationInProgress){
+      return;
+    }
     if (
       this.shouldAddWall &&
       !this.isStartPoint(row, column) &&
@@ -137,15 +158,24 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit {
   }
 
   startWallCreation(row: number, column: number) {
+    if(this.isAnimationInProgress){
+      return;
+    }
     if (!this.isStartPoint(row, column) && !this.isEndPoint(row, column))
       this.shouldAddWall = true;
   }
 
   stopWallCreation() {
+    if(this.isAnimationInProgress){
+      return;
+    }
     this.shouldAddWall = false;
   }
 
   changeStart(row: number, column: number) {
+    if(this.isAnimationInProgress){
+      return;
+    }
     if (this.changeStartPointMode) {
       this.startPoint = [row, column];
     }
@@ -155,6 +185,9 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit {
   }
 
   onDragStartEvent(row: number, column: number) {
+    if(this.isAnimationInProgress){
+      return;
+    }
     if (this.isStartPoint(row, column)) {
       this.changeStartPointMode = true;
       this.changeEndPointMode = false;
@@ -166,6 +199,9 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit {
   }
 
   resetModes() {
+    if(this.isAnimationInProgress){
+      return;
+    }
     this.changeEndPointMode = false;
     this.changeStartPointMode = false;
   }
