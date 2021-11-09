@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  OnInit,
-  QueryList,
-  ViewChildren,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BFS } from '../algorithms/bfs';
 
 @Component({
@@ -20,7 +14,7 @@ export class ShortestDistanceComponent implements OnInit {
 
   public startPoint = [
     Math.round((1 / 2) * this.rowCount),
-    Math.round((1 / 4) * this.colCount)
+    Math.round((1 / 4) * this.colCount),
   ];
 
   public endPoint = [
@@ -30,9 +24,11 @@ export class ShortestDistanceComponent implements OnInit {
 
   public shouldAddWall = false;
 
+  public changeStartPointMode = false;
+  public changeEndPointMode = false;
+
   constructor() {
     this.initializeGraph();
-    console.log(this.endPoint);
   }
 
   ngOnInit(): void {}
@@ -76,53 +72,89 @@ export class ShortestDistanceComponent implements OnInit {
     let flag = false;
 
     function animateCell(index: number) {
-  
-        if (!flag) {
-          flag = true;
-          setTimeout(async () => {
-            const element = document.getElementById(
-              `${animationOrder[index][0]}-${animationOrder[index][1]}`
-            );
-            if (element) {
-              element.classList.remove('unvisited');
-              element.classList.add('current');
-            }
-            if (index < animationOrder.length - 1) {
-              animateCell(flag ? index : index + 1);
-            }
-          }, 10);
-        } else {
-          flag = false;
-          setTimeout(async () => {
-            const element = document.getElementById(
-              `${animationOrder[index][0]}-${animationOrder[index][1]}`
-            );
-            if (element) {
-              element.classList.remove('current');
-              element.classList.add('visited');
-            }
-            if (index < animationOrder.length - 1) {
-              animateCell(flag ? index : index + 1);
-            }
-          }, 10);
-        }
-    
+      if (!flag) {
+        flag = true;
+        setTimeout(async () => {
+          const element = document.getElementById(
+            `${animationOrder[index][0]}-${animationOrder[index][1]}`
+          );
+          if (element) {
+            element.classList.remove('unvisited');
+            element.classList.add('current');
+          }
+          if (index < animationOrder.length - 1) {
+            animateCell(flag ? index : index + 1);
+          }
+        }, 10);
+      } else {
+        flag = false;
+        setTimeout(async () => {
+          const element = document.getElementById(
+            `${animationOrder[index][0]}-${animationOrder[index][1]}`
+          );
+          if (element) {
+            element.classList.remove('current');
+            element.classList.add('visited');
+          }
+          if (index < animationOrder.length - 1) {
+            animateCell(flag ? index : index + 1);
+          }
+        }, 10);
+      }
     }
 
     animateCell(index + 1);
   }
 
-  createWall(i: number, j: number) {
-    if (this.shouldAddWall) {
-      this.graph[i][j].wall = true;
+  createWall(row: number, column: number) {
+    if (
+      this.shouldAddWall &&
+      !this.isStartPoint(row, column) &&
+      !this.isEndPoint(row, column)
+    ) {
+      this.graph[row][column].wall = true;
     }
   }
 
-  startWallCreation() {
-    this.shouldAddWall = true;
+  startWallCreation(row: number, column: number) {
+    if (!this.isStartPoint(row, column) && !this.isEndPoint(row, column))
+      this.shouldAddWall = true;
   }
 
   stopWallCreation() {
     this.shouldAddWall = false;
+  }
+
+  changeStart(row: number, column: number) {
+    if (this.changeStartPointMode) {
+      this.startPoint = [row, column];
+    }
+    if (this.changeEndPointMode) {
+      this.endPoint = [row, column];
+    }
+  }
+
+  onDragStartEvent(row: number, column: number) {
+    if (this.isStartPoint(row, column)) {
+      this.changeStartPointMode = true;
+      this.changeEndPointMode = false;
+    }
+    if (this.isEndPoint(row, column)) {
+      this.changeEndPointMode = true;
+      this.changeStartPointMode = false;
+    }
+  }
+
+  resetModes() {
+    this.changeEndPointMode = false;
+    this.changeStartPointMode = false;
+  }
+
+  isStartPoint(row: number, column: number) {
+    return row === this.startPoint[0] && column === this.startPoint[1];
+  }
+
+  isEndPoint(row: number, column: number) {
+    return row === this.endPoint[0] && column === this.endPoint[1];
   }
 }

@@ -27,8 +27,9 @@
 
 .unvisited{
     display: flex;
-    height: 25px;
-    width: 25px;
+    height: 20px;
+    width: 20px;
+    padding: 5px;
     border: thin solid rgba(72,72,72,0.5);
     background-color: transparent;
 }
