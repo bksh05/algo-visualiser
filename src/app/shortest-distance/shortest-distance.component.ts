@@ -46,7 +46,7 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit {
   }
 
   initializeGraph() {
-    if(this.isAnimationInProgress){
+    if (this.isAnimationInProgress) {
       return;
     }
     for (let i = 0; i < this.rowCount; i++) {
@@ -72,16 +72,16 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit {
   }
 
   visualize() {
-    if(this.isAnimationInProgress){
+    if (this.isAnimationInProgress) {
       return;
     }
     this.resetGraph();
-    const animationOrder = BFS(this.startPoint, this.endPoint, this.graph);
-    this.animate(animationOrder);
+    const result = BFS(this.startPoint, this.endPoint, this.graph);
+    this.animate(result);
   }
 
   resetGraph() {
-    if(this.isAnimationInProgress){
+    if (this.isAnimationInProgress) {
       return;
     }
     for (let i = 0; i < this.rowCount; i++) {
@@ -98,28 +98,34 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit {
     }
   }
 
-  animate(animationOrder: Array<Array<number>>) {
-    if(this.isAnimationInProgress){
+  animate(animationData: {
+    visited: Array<Array<number>>;
+    path: Array<Array<number>>;
+  }) {
+    if (this.isAnimationInProgress) {
       return;
     }
     const index = -1;
     let flag = false;
 
+    const visitedOrder = animationData.visited;
+    const pathOrder = animationData.path;
+
     const animateCell = (index: number) => {
-      if(index === animationOrder.length - 1){
-        this.isAnimationInProgress = false;
+      if (index === visitedOrder.length - 1) {
+        animatePath(0);
       }
       if (!flag) {
         flag = true;
         setTimeout(async () => {
           const element = document.getElementById(
-            `${animationOrder[index][0]}-${animationOrder[index][1]}`
+            `${visitedOrder[index][0]}-${visitedOrder[index][1]}`
           );
           if (element) {
             element.classList.remove('unvisited');
             element.classList.add('current');
           }
-          if (index < animationOrder.length - 1) {
+          if (index < visitedOrder.length - 1) {
             animateCell(flag ? index : index + 1);
           }
         }, 10);
@@ -127,25 +133,43 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit {
         flag = false;
         setTimeout(async () => {
           const element = document.getElementById(
-            `${animationOrder[index][0]}-${animationOrder[index][1]}`
+            `${visitedOrder[index][0]}-${visitedOrder[index][1]}`
           );
           if (element) {
             element.classList.remove('current');
             element.classList.add('visited');
           }
-          if (index < animationOrder.length - 1) {
+          if (index < visitedOrder.length - 1) {
             animateCell(flag ? index : index + 1);
           }
         }, 10);
       }
-    }
+    };
+
+    const animatePath = (index: number) => {
+      setTimeout(async () => {
+        if (index == pathOrder.length - 1) {
+          this.isAnimationInProgress = false;
+        }
+        const element = document.getElementById(
+          `${pathOrder[index][0]}-${pathOrder[index][1]}`
+        );
+        if (element) {
+          element.classList.remove('visited');
+          element.classList.add('current');
+        }
+        if (index < pathOrder.length - 1) {
+          animatePath(index + 1);
+        }
+      }, 50);
+    };
 
     animateCell(index + 1);
     this.isAnimationInProgress = true;
   }
 
   createWall(row: number, column: number) {
-    if(this.isAnimationInProgress){
+    if (this.isAnimationInProgress) {
       return;
     }
     if (
@@ -158,7 +182,7 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit {
   }
 
   startWallCreation(row: number, column: number) {
-    if(this.isAnimationInProgress){
+    if (this.isAnimationInProgress) {
       return;
     }
     if (!this.isStartPoint(row, column) && !this.isEndPoint(row, column))
@@ -166,14 +190,14 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit {
   }
 
   stopWallCreation() {
-    if(this.isAnimationInProgress){
+    if (this.isAnimationInProgress) {
       return;
     }
     this.shouldAddWall = false;
   }
 
   changeStart(row: number, column: number) {
-    if(this.isAnimationInProgress){
+    if (this.isAnimationInProgress) {
       return;
     }
     if (this.changeStartPointMode) {
@@ -185,7 +209,7 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit {
   }
 
   onDragStartEvent(row: number, column: number) {
-    if(this.isAnimationInProgress){
+    if (this.isAnimationInProgress) {
       return;
     }
     if (this.isStartPoint(row, column)) {
@@ -199,7 +223,7 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit {
   }
 
   resetModes() {
-    if(this.isAnimationInProgress){
+    if (this.isAnimationInProgress) {
       return;
     }
     this.changeEndPointMode = false;
