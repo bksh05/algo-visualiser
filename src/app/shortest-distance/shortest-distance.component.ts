@@ -197,22 +197,11 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit {
     this.shouldAddWall = false;
   }
 
-  changeStart(row: number, column: number) {
-    if (this.isAnimationInProgress) {
-      return;
-    }
-    if (this.changeStartPointMode) {
-      this.startPoint = [row, column];
-    }
-    if (this.changeEndPointMode) {
-      this.endPoint = [row, column];
-    }
-  }
-
   onDragStartEvent(row: number, column: number) {
     if (this.isAnimationInProgress) {
       return;
     }
+    
     if (this.isStartPoint(row, column)) {
       this.changeStartPointMode = true;
       this.changeEndPointMode = false;
@@ -223,9 +212,15 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit {
     }
   }
 
-  resetModes() {
+  changePoints(row: number , column: number) {
     if (this.isAnimationInProgress) {
       return;
+    }
+    if (this.changeStartPointMode) {
+      this.startPoint = [row, column];
+    }
+    if (this.changeEndPointMode) {
+      this.endPoint = [row, column];
     }
     this.changeEndPointMode = false;
     this.changeStartPointMode = false;

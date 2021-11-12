@@ -2,12 +2,13 @@
   <div class="row" *ngFor="let row of graph; let i = index">
     <ng-container class="cell" *ngFor="let cell of row; let j = index">
       <div
+        draggable="true"
         (dblclick)="startWallCreation(i, j)"
         (mouseenter)="createWall(i, j)"
         (click)="stopWallCreation()"
         (dragstart)="onDragStartEvent(i, j)"
-        (dragover)="changeStart(i, j)"
-        (drop)="resetModes()"
+        (dragover)="$event.preventDefault()"
+        (drop)="changePoints(i,j)"
         id="{{ i }}-{{ j }}"
         [ngClass]="{
           wall: cell.wall,
