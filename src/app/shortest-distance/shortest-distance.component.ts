@@ -6,6 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { BFS } from '../algorithms/bfs';
+import { DFS } from '../algorithms/dfs';
 
 @Component({
   selector: 'app-shortest-distance',
