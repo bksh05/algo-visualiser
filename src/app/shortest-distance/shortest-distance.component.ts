@@ -5,8 +5,10 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { BFS } from '../algorithms/bfs';
 import { DFS } from '../algorithms/dfs';
+import { StateService } from '../service/state.service';
 
 @Component({
   selector: 'app-shortest-distance',
@@ -29,10 +31,25 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit {
 
   public changeStartPointMode = false;
   public changeEndPointMode = false;
-
   public isAnimationInProgress = false;
 
-  constructor() {}
+  public selectedAlgoCode = '';
+
+  private selectedAlgorithmSubscription?: Subscription;
+  private triggerVisualizeSubscription?: Subscription;
+
+  constructor(private state: StateService) {
+    this.selectedAlgorithmSubscription =
+      this.state.selectedAlgorithmSubject.subscribe((algoCode) => {
+        this.selectedAlgoCode = algoCode;
+      });
+
+    this.state.triggerVisualize.subscribe((bool) => {
+      if (bool) {
+        this.visualize();
+      }
+    });
+  }
 
   ngOnInit(): void {}
 
@@ -77,8 +94,21 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit {
       return;
     }
     this.resetGraph();
-    const result = BFS(this.startPoint, this.endPoint, this.graph);
-    this.animate(result);
+
+    let result = null;
+
+    switch (this.selectedAlgoCode) {
+      case 'BFS':
+        result = BFS(this.startPoint, this.endPoint, this.graph);
+        break;
+      case 'DFS':
+        result = DFS(this.startPoint, this.endPoint, this.graph);
+        break;
+    }
+
+    if (result) {
+      this.animate(result);
+    }
   }
 
   resetGraph() {
@@ -201,7 +231,7 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit {
     if (this.isAnimationInProgress) {
       return;
     }
-    
+
     if (this.isStartPoint(row, column)) {
       this.changeStartPointMode = true;
       this.changeEndPointMode = false;
@@ -212,7 +242,7 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit {
     }
   }
 
-  changePoints(row: number , column: number) {
+  changePoints(row: number, column: number) {
     if (this.isAnimationInProgress) {
       return;
     }

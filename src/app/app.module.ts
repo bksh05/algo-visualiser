@@ -6,19 +6,20 @@ import { AppComponent } from './app.component';
 import { ShortestDistanceComponent } from './shortest-distance/shortest-distance.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NavbarComponent } from './navbar/navbar.component';
+import { MenubarModule } from 'primeng/menubar';
+import { SharedModule } from 'primeng/api';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ShortestDistanceComponent
-  ],
+  declarations: [AppComponent, ShortestDistanceComponent, NavbarComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
-    
+    BrowserAnimationsModule,
+    MenubarModule,
+    SharedModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

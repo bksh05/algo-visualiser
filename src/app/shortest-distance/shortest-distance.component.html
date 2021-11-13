@@ -8,7 +8,7 @@
         (click)="stopWallCreation()"
         (dragstart)="onDragStartEvent(i, j)"
         (dragover)="$event.preventDefault()"
-        (drop)="changePoints(i,j)"
+        (drop)="changePoints(i, j)"
         id="{{ i }}-{{ j }}"
         [ngClass]="{
           wall: cell.wall,
@@ -20,5 +20,3 @@
     </ng-container>
   </div>
 </div>
-
-<button (click)="visualize()" [disabled]="isAnimationInProgress">visualize</button>
