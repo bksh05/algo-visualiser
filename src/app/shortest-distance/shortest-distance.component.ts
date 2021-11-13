@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -15,7 +16,7 @@ import { StateService } from '../service/state.service';
   templateUrl: './shortest-distance.component.html',
   styleUrls: ['./shortest-distance.component.scss'],
 })
-export class ShortestDistanceComponent implements OnInit, AfterViewInit {
+export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('graphContainer') graphContainer?: ElementRef;
 
   public graph = new Array<Array<any>>();
@@ -56,9 +57,9 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     if (this.graphContainer) {
       this.rowCount =
-        Math.floor(this.graphContainer.nativeElement.offsetHeight / 32) - 1;
+        Math.floor(this.graphContainer.nativeElement.offsetHeight / 28) - 1;
       this.colCount =
-        Math.floor(this.graphContainer.nativeElement.offsetWidth / 32) - 1;
+        Math.floor(this.graphContainer.nativeElement.offsetWidth / 28) - 1;
       this.initializeGraph();
     }
   }
@@ -262,5 +263,10 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit {
 
   isEndPoint(row: number, column: number) {
     return row === this.endPoint[0] && column === this.endPoint[1];
+  }
+
+  ngOnDestroy(){
+    this.triggerVisualizeSubscription?.unsubscribe();
+    this.selectedAlgorithmSubscription?.unsubscribe();
   }
 }
