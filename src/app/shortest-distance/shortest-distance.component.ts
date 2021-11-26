@@ -9,6 +9,7 @@ import {
 import { Subscription } from 'rxjs';
 import { BFS } from '../algorithms/bfs';
 import { DFS } from '../algorithms/dfs';
+import { dijkstra } from '../algorithms/dijkstra';
 import { StateService } from '../service/state.service';
 
 @Component({
@@ -74,6 +75,7 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestr
         cells.push({
           visited: false,
           wall: false,
+          weight: 1
         });
       }
       this.graph.push(cells);
@@ -105,6 +107,10 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestr
       case 'DFS':
         result = DFS(this.startPoint, this.endPoint, this.graph);
         break;
+      case 'Dijkstra':
+        result = dijkstra(this.startPoint, this.endPoint, this.graph);
+        break;
+
     }
 
     if (result) {
@@ -179,9 +185,13 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestr
     };
 
     const animatePath = (index: number) => {
+      
       setTimeout(async () => {
         if (index == pathOrder.length - 1) {
           this.isAnimationInProgress = false;
+        }
+        if(pathOrder.length === 0){
+          return;
         }
         const element = document.getElementById(
           `${pathOrder[index][0]}-${pathOrder[index][1]}`

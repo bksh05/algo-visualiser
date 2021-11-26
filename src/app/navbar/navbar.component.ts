@@ -25,6 +25,10 @@ export class NavbarComponent implements OnInit {
         name: 'Depth First Search',
         code: 'DFS',
       },
+      {
+        name: 'Dijkstra\'s Algorithm',
+        code: 'Dijkstra'
+      }
     ];
   }
 

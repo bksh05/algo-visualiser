@@ -4,7 +4,7 @@ export function getNeighbour(
   rowCount: number,
   colCount: number
 ) {
-  const neighbours = new Array<Array<number>>();
+  const neighbours = new Array<[number,number]>(); 
 
     if (rowCount <= 0 && colCount <= 0) {
       return neighbours;
