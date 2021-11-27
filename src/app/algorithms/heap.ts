@@ -3,7 +3,7 @@ import { cloneDeep } from 'lodash';
 export interface HeapObj {
   coords: [number, number];
   cost: number;
-  parent : [number , number];
+  parent: [number, number];
 }
 
 export class MinHeap {
@@ -17,8 +17,9 @@ export class MinHeap {
   build(arr: HeapObj[]) {
     this._heap = cloneDeep(arr);
 
-    for (let i = this._heap.length-1; i >= 0; i--) {
+    for (let i = this._heap.length - 1; i >= 0; i--) {
       this._coordsToIndexMap[this.getIdFromCoords(this._heap[i].coords)] = i;
+
       if (i < Math.floor(this._heap.length / 2) + 1) {
         this._heapify(i);
       }
@@ -50,11 +51,10 @@ export class MinHeap {
       this._heap[smallest] = temp;
 
       this._coordsToIndexMap[
-        `${this.getIdFromCoords(this._heap[smallest].coords)}`
+        this.getIdFromCoords(this._heap[smallest].coords)
       ] = smallest;
-      this._coordsToIndexMap[
-        `${this.getIdFromCoords(this._heap[index].coords)}`
-      ] = index;
+      this._coordsToIndexMap[this.getIdFromCoords(this._heap[index].coords)] =
+        index;
 
       this._heapify(smallest);
     }
@@ -72,29 +72,32 @@ export class MinHeap {
     return min;
   }
 
-  decreaseKey(coords: [number, number], cost: number , parent: [number , number]) {
+  decreaseKey(
+    coords: [number, number],
+    cost: number,
+    parent: [number, number]
+  ) {
     let index = this._coordsToIndexMap[this.getIdFromCoords(coords)];
     this._heap[index].cost = cost;
     this._heap[index].parent = parent;
 
-    while (index > 0 && this._heap[index].cost < this._heap[this.getParent(index)].cost) {
-      const temp = this._heap[index];
+    while (
+      index > 0 &&
+      this._heap[index].cost < this._heap[this.getParent(index)].cost
+    ) {
       const parentIndex = this.getParent(index);
 
-    
+      const temp = this._heap[index];
       this._heap[index] = this._heap[parentIndex];
-      this._heap[this.getParent(index)] = temp;
+      this._heap[parentIndex] = temp;
 
       this._coordsToIndexMap[
-        `${this._heap[this.getParent(index)].coords[0]}_${
-          this._heap[this.getParent(index)].coords[1]
-        }`
-      ] = this.getParent(index);
-      this._coordsToIndexMap[
-        `${this._heap[index].coords[0]}_${this._heap[index].coords[1]}`
-      ] = index;
+        this.getIdFromCoords(this._heap[parentIndex].coords)
+      ] = parentIndex;
+      this._coordsToIndexMap[this.getIdFromCoords(this._heap[index].coords)] =
+        index;
 
-      index = this.getParent(index);
+      index = parentIndex;
     }
   }
 
