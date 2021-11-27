@@ -1,4 +1,3 @@
-<!-- <router-outlet></router-outlet> -->
 <app-navbar
   style="display: flex; width: 100%; flex-direction: column"
 ></app-navbar>
@@ -89,20 +88,28 @@
       </h3>
     </div>
     <div *ngIf="currentIndex == 5">
-        <h3 style="text-align: center; margin-bottom: 15px">
-            Use the navbar buttons to visualize algorithms and to do other stuff!
-            </h3>
-            <p style="text-align: center; margin-bottom: 25px" class="p-m-0">
-                You can clear the current path, clear walls and weights, clear the entire board, and adjust the visualization speed, all from the navbar. If you want to access this tutorial again, click on "Algorithm Visualizer" in the top left corner of your screen.
-              </p>
+      <h3 style="text-align: center; margin-bottom: 15px">
+        Use the navbar buttons to visualize algorithms and to do other stuff!
+      </h3>
+      <p style="text-align: center; margin-bottom: 25px" class="p-m-0">
+        You can clear the current path, clear walls and weights, clear the
+        entire board, and adjust the visualization speed, all from the navbar.
+        If you want to access this tutorial again, click on "Algorithm
+        Visualizer" in the top left corner of your screen.
+      </p>
+      <div style="display: flex; justify-content: center; margin: 0 auto">
+        <img
+          src="../../assets/images/navbar.png"
+          style="margin: auto; border: 1px solid white"
+        />
       </div>
-      <div *ngIf="currentIndex == 6">
-        <h3 style="text-align: center; margin-bottom: 15px">
-            I hope you have just as much fun playing around with this visualization tool as I had building it!
-              
-            </h3>
-          
-      </div>
+    </div>
+    <div *ngIf="currentIndex == 6">
+      <h3 style="text-align: center; margin-bottom: 15px">
+        I hope you have just as much fun playing around with this visualization
+        tool as I had building it!
+      </h3>
+    </div>
   </div>
 
   <ng-template pTemplate="footer">
@@ -124,14 +131,14 @@
           styleClass="p-button-success"
         ></p-button>
         <p-button
-        *ngIf="currentIndex < 6"
+          *ngIf="currentIndex < 6"
           icon="pi pi-arrow-right"
           (click)="currentIndex = currentIndex + 1"
           label="Next"
           styleClass="p-button-success"
         ></p-button>
         <p-button
-        *ngIf="currentIndex >= 6"
+          *ngIf="currentIndex >= 6"
           icon="pi pi-arrow-right"
           (click)="displayModal = false"
           label="Finish"

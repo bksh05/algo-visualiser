@@ -14,6 +14,7 @@ export class NavbarComponent implements OnInit {
   public selectedAlgoChange = new EventEmitter<string>();
 
   public selectedAlgoCode = '';
+  public speedName: string = 'Fast';
 
   constructor(private state: StateService) {
     this.allowedAlgo = [
@@ -26,9 +27,9 @@ export class NavbarComponent implements OnInit {
         code: 'DFS',
       },
       {
-        name: 'Dijkstra\'s Algorithm',
-        code: 'Dijkstra'
-      }
+        name: "Dijkstra's Algorithm",
+        code: 'Dijkstra',
+      },
     ];
   }
 
@@ -47,8 +48,13 @@ export class NavbarComponent implements OnInit {
     this.state.triggerVisualize.next(this.selectedAlgoCode !== '');
   }
 
-  clear(command: string){
+  clear(command: string) {
     this.state.boardTriggers.next(command);
+  }
+
+  speed(time: number) {
+    this.calculateMenuItems();
+    this.state.animateSpeedSubject.next(time);
   }
 
   calculateMenuItems(isFirst: boolean = false) {
@@ -75,15 +81,46 @@ export class NavbarComponent implements OnInit {
       },
       {
         label: 'Reset Board',
-        command:  () => this.clear('reset'),
+        command: () => this.clear('reset'),
       },
       {
         label: 'Clear Walls and weight',
-        command:  () => this.clear('walls and weights'),
+        command: () => this.clear('walls and weights'),
       },
       {
         label: 'Clear Paths',
-        command:  () => this.clear('paths'),
+        command: () => this.clear('paths'),
+      },
+
+      {
+        label: `Speed: ${this.speedName}`,
+        command: () => this.clear('paths'),
+        items: [
+          {
+            label: 'Fast',
+            command: () => {
+              this.speedName = 'Fast';
+              this.speed(10);
+              
+            },
+          },
+          {
+            label: 'Medium',
+            command: () => {
+              this.speedName = 'Medium';
+              this.speed(50);
+              
+            },
+          },
+          {
+            label: 'Slow',
+            command: () => {
+              this.speedName = 'Slow';
+              this.speed(150);
+              
+            },
+          },
+        ],
       },
     ];
   }

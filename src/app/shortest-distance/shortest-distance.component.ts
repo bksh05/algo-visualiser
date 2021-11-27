@@ -43,6 +43,9 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestr
   private selectedAlgorithmSubscription?: Subscription;
   private triggerVisualizeSubscription?: Subscription;
   private boardTriggerSubscription?: Subscription;
+  private animateSpeedSubscription?: Subscription;
+
+  public animationSpeed = 10;
 
   constructor(private state: StateService) {
     this.selectedAlgorithmSubscription =
@@ -87,6 +90,12 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestr
         }
       }
     });
+
+    this.animateSpeedSubscription = this.state.animateSpeedSubject.subscribe((speed) => {
+      console.log(speed);
+      this.animationSpeed = speed;
+
+    })
   }
 
   ngOnInit(){}
@@ -233,6 +242,7 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestr
       }
       if (!flag) {
         flag = true;
+        console.log(this.animationSpeed)
         setTimeout(async () => {
           const element = document.getElementById(
             `${visitedOrder[index][0]}-${visitedOrder[index][1]}`
@@ -244,7 +254,7 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestr
           if (index < visitedOrder.length - 1) {
             animateCell(flag ? index : index + 1);
           }
-        }, 10);
+        }, this.animationSpeed);
       } else {
         flag = false;
         setTimeout(async () => {
@@ -258,7 +268,7 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestr
           if (index < visitedOrder.length - 1) {
             animateCell(flag ? index : index + 1);
           }
-        }, 10);
+        }, this.animationSpeed);
       }
     };
 
@@ -281,7 +291,7 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestr
         if (index < pathOrder.length - 1) {
           animatePath(index + 1);
         }
-      }, 50);
+      }, this.animationSpeed);
     };
 
     animateCell(index + 1);
@@ -375,5 +385,6 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestr
     this.triggerVisualizeSubscription?.unsubscribe();
     this.selectedAlgorithmSubscription?.unsubscribe();
     this.boardTriggerSubscription?.unsubscribe();
+    this.animateSpeedSubscription?.unsubscribe();
   }
 }
