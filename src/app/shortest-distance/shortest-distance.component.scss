@@ -59,10 +59,15 @@
   border: 1px solid black;
 }
 
+.gutter{
+  margin-bottom: 10px;
+}
+
 .hints{
   @extend .row;
   width: 100%;
   padding: 30px 0px 0px 0px;
+  flex-wrap: wrap;
 
   .column{
     margin-left: 50px;
