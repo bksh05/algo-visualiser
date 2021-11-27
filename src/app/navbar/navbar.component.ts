@@ -47,6 +47,10 @@ export class NavbarComponent implements OnInit {
     this.state.triggerVisualize.next(this.selectedAlgoCode !== '');
   }
 
+  clear(command: string){
+    this.state.boardTriggers.next(command);
+  }
+
   calculateMenuItems(isFirst: boolean = false) {
     this.items = [
       {
@@ -68,6 +72,18 @@ export class NavbarComponent implements OnInit {
           : 'Pick an algorithm',
 
         command: () => this.triggerVisualize(),
+      },
+      {
+        label: 'Reset Board',
+        command:  () => this.clear('reset'),
+      },
+      {
+        label: 'Clear Walls and weight',
+        command:  () => this.clear('walls and weights'),
+      },
+      {
+        label: 'Clear Paths',
+        command:  () => this.clear('paths'),
       },
     ];
   }

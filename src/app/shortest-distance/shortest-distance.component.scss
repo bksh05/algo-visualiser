@@ -59,9 +59,34 @@
   border: 1px solid black;
 }
 
-.visited {
+.hints{
+  @extend .row;
+  width: 100%;
+  padding: 30px 0px 0px 0px;
+
+  .column{
+    margin-left: 50px;
+  }
+
+  .text{
+    margin: auto;
+    font-size: 15px;
+    color: white;
+    margin-left: 10px;
+
+  }
+
+}
+
+.visited-no-animation {
   @extend .unvisited;
   border: 1px solid rgb(175, 216, 248);
+  background-color: rgba(0, 190, 218, 0.75);
+
+}
+
+.visited {
+  @extend .unvisited;;
   animation-name: seenAnimation;
   animation-duration: 1.5s;
   animation-timing-function: ease-out;
@@ -71,6 +96,7 @@
   animation-fill-mode: forwards;
   animation-play-state: running;
 }
+
 
 @keyframes seenAnimation {
   0% {

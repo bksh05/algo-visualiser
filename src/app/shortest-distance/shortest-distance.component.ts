@@ -72,6 +72,21 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestr
         this.visualize();
       }
     });
+
+    this.state.boardTriggers.subscribe((triggerName) => {
+      console.log(triggerName)
+      if(triggerName){
+        if(triggerName === 'reset'){
+          this.reset();
+        }
+        else if(triggerName === 'walls and weights'){
+          this.clearWeightsAndWalls();
+        }
+        else if(triggerName === 'paths'){
+          this.clearPath();
+        }
+      }
+    });
   }
 
   ngOnInit(){}
@@ -105,6 +120,7 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestr
     if (this.isAnimationInProgress) {
       return;
     }
+    this.graph = new Array<Array<number>>();
     for (let i = 0; i < this.rowCount; i++) {
       const cells = [];
       for (let j = 0; j < this.colCount; j++) {
@@ -132,7 +148,7 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestr
     if (this.isAnimationInProgress) {
       return;
     }
-    this.resetGraph();
+    this.clearPath();
 
     let result = null;
 
@@ -154,7 +170,7 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestr
     }
   }
 
-  resetGraph() {
+  clearPath() {
     if (this.isAnimationInProgress) {
       return;
     }
@@ -170,6 +186,31 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestr
         }
       }
     }
+  }
+
+  reset(){
+    if (this.isAnimationInProgress) {
+      return;
+    }
+    this.initializeGraph();
+  }
+
+  clearWeightsAndWalls(){
+    if (this.isAnimationInProgress) {
+      return;
+    }
+    for (let i = 0; i < this.rowCount; i++) {
+      for (let j = 0; j < this.colCount; j++) {
+        this.graph[i][j].visited = false;
+        const ele = document.getElementById(`${i}-${j}`);
+
+        if (ele) {
+          ele.classList.remove('wall');
+          ele.classList.remove('weight');
+        }
+      }
+    }
+    
   }
 
   animate(animationData: {

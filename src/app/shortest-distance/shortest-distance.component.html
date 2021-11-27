@@ -1,4 +1,57 @@
 <div class="container">
+
+  <div class="hints">
+    <div class="column">
+      <div class="row">
+        <div class="unvisited start"></div>
+        <span class="text">Start Node</span>
+      </div>
+      
+    </div>
+    <div class="column">
+      <div class="row">
+        <div class="unvisited end"></div>
+        <span class="text">End Node</span>
+      </div>
+    </div>
+
+    <div class="column">
+      <div class="row">
+        <div class="unvisited weight"></div>
+        <span class="text">Weight Node</span>
+      </div>
+    </div>
+
+    <div class="column">
+      <div class="row">
+        <div class="unvisited"></div>
+        <span class="text">Unvisited Node</span>
+      </div>
+    </div>
+
+    <div class="column">
+      <div class="row">
+        <div class="visited-no-animation"></div>
+        <span class="text">Visited Node</span>
+      </div>
+    </div>
+
+    <div class="column">
+      <div class="row">
+        <div class="current"></div>
+        <span class="text">Shortest path Node</span>
+      </div>
+    </div>
+
+    <div class="column">
+      <div class="row">
+        <div class="unvisited wall"></div>
+        <span class="text">Wall Node</span>
+      </div>
+    </div>
+
+  </div>
+
   <div class="graph-container row" #graphContainer>
     <div class="row" *ngFor="let row of graph; let i = index">
       <ng-container class="cell" *ngFor="let cell of row; let j = index">
