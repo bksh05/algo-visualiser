@@ -92,7 +92,6 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestr
     });
 
     this.animateSpeedSubscription = this.state.animateSpeedSubject.subscribe((speed) => {
-      console.log(speed);
       this.animationSpeed = speed;
 
     })
@@ -291,7 +290,7 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestr
         if (index < pathOrder.length - 1) {
           animatePath(index + 1);
         }
-      }, this.animationSpeed);
+      }, this.animationSpeed * 3);
     };
 
     animateCell(index + 1);
