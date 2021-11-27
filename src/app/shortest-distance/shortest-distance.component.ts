@@ -212,6 +212,8 @@ export class ShortestDistanceComponent implements OnInit, AfterViewChecked, OnDe
     for (let i = 0; i < this.rowCount; i++) {
       for (let j = 0; j < this.colCount; j++) {
         this.graph[i][j].visited = false;
+        this.graph[i][j].walls = false;
+        this.graph[i][j].weight = 1;
         const ele = document.getElementById(`${i}-${j}`);
 
         if (ele) {
@@ -369,15 +371,6 @@ export class ShortestDistanceComponent implements OnInit, AfterViewChecked, OnDe
 
   isEndPoint(row: number, column: number) {
     return row === this.endPoint[0] && column === this.endPoint[1];
-  }
-
-
-  removeWeights(){
-    for (let i = 0; i < this.rowCount; i++) {
-      for (let j = 0; j < this.colCount; j++) {
-        this.graph[i][j].weight = 1;
-      }
-    }
   }
 
   ngOnDestroy(){
