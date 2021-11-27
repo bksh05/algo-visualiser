@@ -1,4 +1,5 @@
 import {
+  AfterViewChecked,
   AfterViewInit,
   Component,
   ElementRef,
@@ -18,7 +19,7 @@ import { StateService } from '../service/state.service';
   templateUrl: './shortest-distance.component.html',
   styleUrls: ['./shortest-distance.component.scss'],
 })
-export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ShortestDistanceComponent implements OnInit, AfterViewChecked, OnDestroy {
   @ViewChild('graphContainer') graphContainer?: ElementRef;
 
   public graph = new Array<Array<any>>();
@@ -114,8 +115,8 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestr
   }
   
 
-  ngAfterViewInit() {
-    if (this.graphContainer) {
+  ngAfterViewChecked() {
+    if (this.graphContainer && this.graph.length === 0) {
       this.rowCount =
         Math.floor(this.graphContainer.nativeElement.offsetHeight / 28) - 1;
       this.colCount =
@@ -241,7 +242,6 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestr
       }
       if (!flag) {
         flag = true;
-        console.log(this.animationSpeed)
         setTimeout(async () => {
           const element = document.getElementById(
             `${visitedOrder[index][0]}-${visitedOrder[index][1]}`
