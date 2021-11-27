@@ -8,7 +8,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit{
   title = 'algo-visualizer';
   displayModal = false;
-  currentIndex =2;
+  currentIndex = 0;
 
   constructor(){
   }
