@@ -1,22 +1,25 @@
-<div class="graph-container" #graphContainer>
-  <div class="row" *ngFor="let row of graph; let i = index">
-    <ng-container class="cell" *ngFor="let cell of row; let j = index">
-      <div
-        draggable="true"
-        (dblclick)="startWallCreation(i, j)"
-        (mouseenter)="createWall(i, j)"
-        (click)="stopWallCreation()"
-        (dragstart)="onDragStartEvent(i, j)"
-        (dragover)="$event.preventDefault()"
-        (drop)="changePoints(i, j)"
-        id="{{ i }}-{{ j }}"
-        [ngClass]="{
-          wall: cell.wall,
-          start: i === startPoint[0] && j === startPoint[1],
-          end: i === endPoint[0] && j === endPoint[1]
-        }"
-        class="unvisited"
-      ></div>
-    </ng-container>
+<div class="container">
+  <div class="graph-container row" #graphContainer>
+    <div class="row" *ngFor="let row of graph; let i = index">
+      <ng-container class="cell" *ngFor="let cell of row; let j = index">
+        <div
+          draggable="true"
+          (dblclick)="startWallCreation(i, j)"
+          (mouseenter)="addRestrictionsToCell(i, j)"
+          (click)="stopWallCreation()"
+          (dragstart)="onDragStartEvent(i, j)"
+          (dragover)="$event.preventDefault()"
+          (drop)="changePoints(i, j)"
+          id="{{ i }}-{{ j }}"
+          [ngClass]="{
+            wall: cell.wall,
+            start: i === startPoint[0] && j === startPoint[1],
+            end: i === endPoint[0] && j === endPoint[1],
+            weight: cell.weight === 15 && canHaveWeights
+          }"
+          class="unvisited"
+        ></div>
+      </ng-container>
+    </div>
   </div>
 </div>

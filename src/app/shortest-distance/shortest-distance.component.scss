@@ -18,10 +18,15 @@
   width: 100%;
 }
 
+.container{
+  @extend .graph-container;
+
+}
+
 .current {
   @extend .unvisited;
   border: thin solid rgb(175, 216, 248) !important;
-  background-color: rgb(255, 254, 106, 0.5) !important;
+  background-color: red !important;
 }
 
 .unvisited {
@@ -43,6 +48,12 @@
   background-position: center;
 }
 
+.weight {
+  background-image: url("../../assets/images/weight.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  color: white
+}
 .wall {
   background-color: black;
   border: 1px solid black;

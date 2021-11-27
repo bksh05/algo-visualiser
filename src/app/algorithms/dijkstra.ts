@@ -31,7 +31,6 @@ export function dijkstra(
 
       matrix[minNode.coords[0]][minNode.coords[1]].visited = true;
       visitedOrder.push(minNode.coords);
-      console.log(cloneDeep(minNode));
       if (minNode.coords[0] === end[0] && minNode.coords[1] === end[1]) {
         return {
           visited: visitedOrder,

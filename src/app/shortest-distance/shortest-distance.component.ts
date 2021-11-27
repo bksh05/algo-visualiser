@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  HostListener,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -30,6 +31,8 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestr
   public endPoint = [0, 0];
 
   public shouldAddWall = false;
+  public shouldAddWeights = false;
+  public canHaveWeights = false;
 
   public changeStartPointMode = false;
   public changeEndPointMode = false;
@@ -44,6 +47,24 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestr
     this.selectedAlgorithmSubscription =
       this.state.selectedAlgorithmSubject.subscribe((algoCode) => {
         this.selectedAlgoCode = algoCode;
+
+        switch (this.selectedAlgoCode) {
+          case 'BFS':
+            this.canHaveWeights = false;
+            break;
+          case 'DFS':
+          
+            this.canHaveWeights = false;
+            break;
+          case 'Dijkstra':
+           
+            this.canHaveWeights = true;
+            break;
+    
+        }
+
+
+
       });
 
     this.state.triggerVisualize.subscribe((bool) => {
@@ -53,7 +74,22 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestr
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(){}
+
+  @HostListener('document:keydown', ['$event'])
+  activateWeights(event : KeyboardEvent){
+    if((event.key === 'w' || event.key === 'W') && this.canHaveWeights){
+      this.shouldAddWeights = true;
+    }
+  }
+
+  @HostListener('document:keyup', ['$event'])
+  deActivateWeights(event : KeyboardEvent){
+    if((event.key === 'w' || event.key === 'W') && this.canHaveWeights){
+      this.shouldAddWeights = false;
+    }
+  }
+  
 
   ngAfterViewInit() {
     if (this.graphContainer) {
@@ -210,7 +246,7 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestr
     this.isAnimationInProgress = true;
   }
 
-  createWall(row: number, column: number) {
+  addRestrictionsToCell(row: number, column: number) {
     if (this.isAnimationInProgress) {
       return;
     }
@@ -220,6 +256,15 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestr
       !this.isEndPoint(row, column)
     ) {
       this.graph[row][column].wall = true;
+    }
+
+    if (
+      this.shouldAddWeights &&
+      this.canHaveWeights &&
+      !this.isStartPoint(row, column) &&
+      !this.isEndPoint(row, column)
+    ) {
+      this.graph[row][column].weight = this.graph[row][column].weight === 15 ? 1 :  15;
     }
   }
 
@@ -273,6 +318,15 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestr
 
   isEndPoint(row: number, column: number) {
     return row === this.endPoint[0] && column === this.endPoint[1];
+  }
+
+
+  removeWeights(){
+    for (let i = 0; i < this.rowCount; i++) {
+      for (let j = 0; j < this.colCount; j++) {
+        this.graph[i][j].weight = 1;
+      }
+    }
   }
 
   ngOnDestroy(){
