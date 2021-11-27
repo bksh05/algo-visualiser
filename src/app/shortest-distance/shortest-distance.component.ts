@@ -42,6 +42,7 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestr
 
   private selectedAlgorithmSubscription?: Subscription;
   private triggerVisualizeSubscription?: Subscription;
+  private boardTriggerSubscription?: Subscription;
 
   constructor(private state: StateService) {
     this.selectedAlgorithmSubscription =
@@ -67,14 +68,13 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestr
 
       });
 
-    this.state.triggerVisualize.subscribe((bool) => {
+    this.triggerVisualizeSubscription =  this.state.triggerVisualize.subscribe((bool) => {
       if (bool) {
         this.visualize();
       }
     });
 
-    this.state.boardTriggers.subscribe((triggerName) => {
-      console.log(triggerName)
+    this.boardTriggerSubscription =  this.state.boardTriggers.subscribe((triggerName) => {
       if(triggerName){
         if(triggerName === 'reset'){
           this.reset();
@@ -120,7 +120,6 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestr
     if (this.isAnimationInProgress) {
       return;
     }
-    this.graph = new Array<Array<number>>();
     for (let i = 0; i < this.rowCount; i++) {
       const cells = [];
       for (let j = 0; j < this.colCount; j++) {
@@ -192,6 +191,8 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestr
     if (this.isAnimationInProgress) {
       return;
     }
+
+    this.graph = new Array<Array<number>>();
     this.initializeGraph();
   }
 
@@ -373,5 +374,6 @@ export class ShortestDistanceComponent implements OnInit, AfterViewInit, OnDestr
   ngOnDestroy(){
     this.triggerVisualizeSubscription?.unsubscribe();
     this.selectedAlgorithmSubscription?.unsubscribe();
+    this.boardTriggerSubscription?.unsubscribe();
   }
 }

@@ -9,6 +9,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavbarComponent } from './navbar/navbar.component';
 import { MenubarModule } from 'primeng/menubar';
 import { SharedModule } from 'primeng/api';
+import {DialogModule} from 'primeng/dialog';
+import {ButtonModule} from 'primeng/button';
+
 
 @NgModule({
   declarations: [AppComponent, ShortestDistanceComponent, NavbarComponent],
@@ -18,6 +21,8 @@ import { SharedModule } from 'primeng/api';
     BrowserAnimationsModule,
     MenubarModule,
     SharedModule,
+    DialogModule,
+    ButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent],
