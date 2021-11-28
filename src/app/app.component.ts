@@ -9,6 +9,7 @@ export class AppComponent implements OnInit{
   title = 'algo-visualizer';
   displayModal = false;
   currentIndex = 0;
+  width = { width : "50vw"};
 
   constructor(){
   }
@@ -16,5 +17,8 @@ export class AppComponent implements OnInit{
   ngOnInit(){
 
     this.displayModal = true;
+    if(window.innerWidth < 700){
+      this.width.width = "90vw"
+    } 
   }
 }
