@@ -24,6 +24,7 @@ export class TutorialComponent implements OnInit {
   }
 
   hideTutorial(){
+    this.currentIndex = 0;
     this.hideTutorialEvent.emit();
   }
 }
