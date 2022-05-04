@@ -253,7 +253,7 @@ export class ShortestDistanceComponent implements OnInit, AfterViewChecked, OnDe
             element.classList.add('current');
           }
           if (index < visitedOrder.length - 1) {
-            animateCell(flag ? index : index + 1);
+            animateCell(index);
           }
         }, this.animationSpeed);
       } else {
@@ -267,7 +267,7 @@ export class ShortestDistanceComponent implements OnInit, AfterViewChecked, OnDe
             element.classList.add('visited');
           }
           if (index < visitedOrder.length - 1) {
-            animateCell(flag ? index : index + 1);
+            animateCell(index + 1);
           }
         }, this.animationSpeed);
       }

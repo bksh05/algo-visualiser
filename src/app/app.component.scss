@@ -1,16 +1,23 @@
-::ng-deep .p-dialog-header{
-    text-align: center;
-    width: 100%;
-    margin: auto;
-    padding: 30px;
-    justify-content: space-around !important;
+.mobile-message-box{
+    color: white;
+
+    margin-top: auto;
+    margin-bottom: auto;
+
+
+    h1{
+        text-align: center;
+        margin-bottom: 50px;
+        font-size: 3em;
+    }
+
+    p{
+        text-align: center;
+        margin-left: 1em;
+        margin-right: 1em;
+        margin-bottom: 1em;
+        font-size: 1em;
+
+
+    }
 }
-
-::ng-deep .p-dialog-header .p-dialog-header-icons{
-   display: none !important;
-}
-
-
-.gutter{
-    margin-bottom: 10px;
-  }

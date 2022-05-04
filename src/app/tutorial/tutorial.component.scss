@@ -1,0 +1,11 @@
+::ng-deep .p-dialog-header{
+    text-align: center;
+    width: 100%;
+    margin: auto;
+    padding: 30px;
+    justify-content: space-around !important;
+}
+
+::ng-deep .p-dialog-header .p-dialog-header-icons{
+   display: none !important;
+}

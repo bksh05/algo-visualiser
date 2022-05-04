@@ -100,7 +100,7 @@ export class NavbarComponent implements OnInit {
             label: 'Fast',
             command: () => {
               this.speedName = 'Fast';
-              this.speed(10);
+              this.speed(25);
               
             },
           },

@@ -11,10 +11,11 @@ import { MenubarModule } from 'primeng/menubar';
 import { SharedModule } from 'primeng/api';
 import {DialogModule} from 'primeng/dialog';
 import {ButtonModule} from 'primeng/button';
+import { TutorialComponent } from './tutorial/tutorial.component';
 
 
 @NgModule({
-  declarations: [AppComponent, ShortestDistanceComponent, NavbarComponent],
+  declarations: [AppComponent, ShortestDistanceComponent, NavbarComponent, TutorialComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
