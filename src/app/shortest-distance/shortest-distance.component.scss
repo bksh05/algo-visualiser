@@ -1,7 +1,7 @@
-:host{
-  display: flex; 
-  height: 100%; 
-  width: 100%; 
+:host {
+  display: flex;
+  height: 100%;
+  width: 100%;
   flex-direction: column;
 }
 
@@ -25,9 +25,8 @@
   width: 100%;
 }
 
-.container{
+.container {
   @extend .graph-container;
-
 }
 
 .current {
@@ -59,48 +58,45 @@
   background-image: url("../../assets/images/weight.svg");
   background-repeat: no-repeat;
   background-position: center;
-  color: white
+  color: white;
 }
 .wall {
   background-color: black;
   border: 1px solid black;
 }
 
-.gutter{
+.gutter {
   margin-bottom: 10px;
 }
 
-.hints{
+.hints {
   @extend .row;
   width: 100%;
   padding: 30px 0px 0px 0px;
   flex-wrap: wrap;
 
-  .column{
+  .column {
     margin-left: 50px;
   }
 
-  .text{
+  .text {
     margin: auto;
     font-size: 15px;
     color: white;
     margin-left: 10px;
-
   }
-
 }
 
 .visited-no-animation {
   @extend .unvisited;
   border: 1px solid rgb(175, 216, 248);
   background-color: rgba(0, 190, 218, 0.75);
-
 }
 
 .visited {
-  @extend .unvisited;;
+  @extend .unvisited;
   animation-name: seenAnimation;
-  animation-duration: 1.5s;
+  animation-duration: 1.2s;
   animation-timing-function: ease-out;
   animation-delay: 0;
   animation-direction: alternate;
@@ -108,7 +104,6 @@
   animation-fill-mode: forwards;
   animation-play-state: running;
 }
-
 
 @keyframes seenAnimation {
   0% {

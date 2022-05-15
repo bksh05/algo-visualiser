@@ -1,5 +1,4 @@
 import {
-  AfterViewChecked,
   AfterViewInit,
   Component,
   ElementRef,
@@ -19,7 +18,9 @@ import { StateService } from '../service/state.service';
   templateUrl: './shortest-distance.component.html',
   styleUrls: ['./shortest-distance.component.scss'],
 })
-export class ShortestDistanceComponent implements OnInit, AfterViewChecked, OnDestroy {
+export class ShortestDistanceComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   @ViewChild('graphContainer') graphContainer?: ElementRef;
 
   public graph = new Array<Array<any>>();
@@ -58,64 +59,60 @@ export class ShortestDistanceComponent implements OnInit, AfterViewChecked, OnDe
             this.canHaveWeights = false;
             break;
           case 'DFS':
-          
             this.canHaveWeights = false;
             break;
           case 'Dijkstra':
-           
             this.canHaveWeights = true;
             break;
-    
         }
-
-
-
       });
 
-    this.triggerVisualizeSubscription =  this.state.triggerVisualize.subscribe((bool) => {
-      if (bool) {
-        this.visualize();
-      }
-    });
-
-    this.boardTriggerSubscription =  this.state.boardTriggers.subscribe((triggerName) => {
-      if(triggerName){
-        if(triggerName === 'reset'){
-          this.reset();
-        }
-        else if(triggerName === 'walls and weights'){
-          this.clearWeightsAndWalls();
-        }
-        else if(triggerName === 'paths'){
-          this.clearPath();
+    this.triggerVisualizeSubscription = this.state.triggerVisualize.subscribe(
+      (bool) => {
+        if (bool) {
+          this.visualize();
         }
       }
-    });
+    );
 
-    this.animateSpeedSubscription = this.state.animateSpeedSubject.subscribe((speed) => {
-      this.animationSpeed = speed;
+    this.boardTriggerSubscription = this.state.boardTriggers.subscribe(
+      (triggerName) => {
+        if (triggerName) {
+          if (triggerName === 'reset') {
+            this.reset();
+          } else if (triggerName === 'walls and weights') {
+            this.clearWeightsAndWalls();
+          } else if (triggerName === 'paths') {
+            this.clearPath();
+          }
+        }
+      }
+    );
 
-    })
+    this.animateSpeedSubscription = this.state.animateSpeedSubject.subscribe(
+      (speed) => {
+        this.animationSpeed = speed;
+      }
+    );
   }
 
-  ngOnInit(){}
+  ngOnInit() {}
 
   @HostListener('document:keydown', ['$event'])
-  activateWeights(event : KeyboardEvent){
-    if((event.key === 'w' || event.key === 'W') && this.canHaveWeights){
+  activateWeights(event: KeyboardEvent) {
+    if ((event.key === 'w' || event.key === 'W') && this.canHaveWeights) {
       this.shouldAddWeights = true;
     }
   }
 
   @HostListener('document:keyup', ['$event'])
-  deActivateWeights(event : KeyboardEvent){
-    if((event.key === 'w' || event.key === 'W') && this.canHaveWeights){
+  deActivateWeights(event: KeyboardEvent) {
+    if ((event.key === 'w' || event.key === 'W') && this.canHaveWeights) {
       this.shouldAddWeights = false;
     }
   }
-  
 
-  ngAfterViewChecked() {
+  ngAfterViewInit() {
     if (this.graphContainer && this.graph.length === 0) {
       this.rowCount =
         Math.floor(this.graphContainer.nativeElement.offsetHeight / 28) - 1;
@@ -135,7 +132,7 @@ export class ShortestDistanceComponent implements OnInit, AfterViewChecked, OnDe
         cells.push({
           visited: false,
           wall: false,
-          weight: 1
+          weight: 1,
         });
       }
       this.graph.push(cells);
@@ -170,7 +167,6 @@ export class ShortestDistanceComponent implements OnInit, AfterViewChecked, OnDe
       case 'Dijkstra':
         result = dijkstra(this.startPoint, this.endPoint, this.graph);
         break;
-
     }
 
     if (result) {
@@ -196,33 +192,25 @@ export class ShortestDistanceComponent implements OnInit, AfterViewChecked, OnDe
     }
   }
 
-  reset(){
+  reset() {
     if (this.isAnimationInProgress) {
       return;
     }
-
     this.graph = new Array<Array<number>>();
     this.initializeGraph();
   }
 
-  clearWeightsAndWalls(){
+  clearWeightsAndWalls() {
     if (this.isAnimationInProgress) {
       return;
     }
     for (let i = 0; i < this.rowCount; i++) {
       for (let j = 0; j < this.colCount; j++) {
         this.graph[i][j].visited = false;
-        this.graph[i][j].walls = false;
+        this.graph[i][j].wall = false;
         this.graph[i][j].weight = 1;
-        const ele = document.getElementById(`${i}-${j}`);
-
-        if (ele) {
-          ele.classList.remove('wall');
-          ele.classList.remove('weight');
-        }
       }
     }
-    
   }
 
   animate(animationData: {
@@ -244,7 +232,7 @@ export class ShortestDistanceComponent implements OnInit, AfterViewChecked, OnDe
       }
       if (!flag) {
         flag = true;
-        setTimeout(async () => {
+        setTimeout(() => {
           const element = document.getElementById(
             `${visitedOrder[index][0]}-${visitedOrder[index][1]}`
           );
@@ -258,7 +246,7 @@ export class ShortestDistanceComponent implements OnInit, AfterViewChecked, OnDe
         }, this.animationSpeed);
       } else {
         flag = false;
-        setTimeout(async () => {
+        setTimeout(() => {
           const element = document.getElementById(
             `${visitedOrder[index][0]}-${visitedOrder[index][1]}`
           );
@@ -269,17 +257,17 @@ export class ShortestDistanceComponent implements OnInit, AfterViewChecked, OnDe
           if (index < visitedOrder.length - 1) {
             animateCell(index + 1);
           }
-        }, this.animationSpeed);
+        }, this.animationSpeed + 10);
       }
     };
 
     const animatePath = (index: number) => {
-      
-      setTimeout(async () => {
+      setTimeout(() => {
         if (index == pathOrder.length - 1) {
           this.isAnimationInProgress = false;
         }
-        if(pathOrder.length === 0){
+        if (pathOrder.length === 0) {
+          this.isAnimationInProgress = false;
           return;
         }
         const element = document.getElementById(
@@ -309,15 +297,15 @@ export class ShortestDistanceComponent implements OnInit, AfterViewChecked, OnDe
       !this.isEndPoint(row, column)
     ) {
       this.graph[row][column].wall = true;
-    }
-
-    if (
+    } else if (
       this.shouldAddWeights &&
       this.canHaveWeights &&
       !this.isStartPoint(row, column) &&
-      !this.isEndPoint(row, column)
+      !this.isEndPoint(row, column) &&
+      !this.graph[row][column].wall
     ) {
-      this.graph[row][column].weight = this.graph[row][column].weight === 15 ? 1 :  15;
+      this.graph[row][column].weight =
+        this.graph[row][column].weight === 15 ? 1 : 15;
     }
   }
 
@@ -373,7 +361,7 @@ export class ShortestDistanceComponent implements OnInit, AfterViewChecked, OnDe
     return row === this.endPoint[0] && column === this.endPoint[1];
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.triggerVisualizeSubscription?.unsubscribe();
     this.selectedAlgorithmSubscription?.unsubscribe();
     this.boardTriggerSubscription?.unsubscribe();

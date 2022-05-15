@@ -100,8 +100,7 @@ export class NavbarComponent implements OnInit {
             label: 'Fast',
             command: () => {
               this.speedName = 'Fast';
-              this.speed(25);
-              
+              this.speed(40);
             },
           },
           {
@@ -109,7 +108,6 @@ export class NavbarComponent implements OnInit {
             command: () => {
               this.speedName = 'Medium';
               this.speed(50);
-              
             },
           },
           {
@@ -117,7 +115,6 @@ export class NavbarComponent implements OnInit {
             command: () => {
               this.speedName = 'Slow';
               this.speed(150);
-              
             },
           },
         ],
