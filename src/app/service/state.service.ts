@@ -11,7 +11,7 @@ export class StateService {
 
   public boardTriggers : BehaviorSubject<string> = new BehaviorSubject('');
 
-  public animateSpeedSubject: BehaviorSubject<number> = new BehaviorSubject(10); 
+  public animateSpeedSubject: BehaviorSubject<number> = new BehaviorSubject(20); 
 
   constructor() { }
 }

@@ -47,7 +47,7 @@ export class ShortestDistanceComponent
   private boardTriggerSubscription?: Subscription;
   private animateSpeedSubscription?: Subscription;
 
-  public animationSpeed = 10;
+  public animationSpeed = 20;
 
   constructor(private state: StateService) {
     this.selectedAlgorithmSubscription =
