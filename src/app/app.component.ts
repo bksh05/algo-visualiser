@@ -23,7 +23,7 @@ export class AppComponent implements OnInit, AfterViewInit{
   ngOnInit(){
     this.isMobileOrTablet = isMobileAndTabletCheck();
     console.log("Is this mobile or tablet", this.isMobileOrTablet);
-    console.log("Working on angular 16")
+    console.log("Working on angular 16!!")
   }
 
 
