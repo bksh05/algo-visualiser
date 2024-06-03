@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "codecache-ad9a7",
+    "site": "algo-visualizer-4a928",
     "public": "dist/algo-visualizer",
     "ignore": [
       "firebase.json",
