@@ -1,10 +1,4 @@
-<p-dialog
-  [(visible)]="displayModal"
-  [modal]="true"
-  [style]=width
-  [draggable]="false"
-  [resizable]="false"
->
+<p-dialog [(visible)]="displayModal" [modal]="true" [style]=width [resizable]="false" [draggable]="true">
   <ng-template pTemplate="header">
     <h1 *ngIf="currentIndex == 0">Welcome to Algo Visualizer!</h1>
     <h1 *ngIf="currentIndex == 1">What is a path finding algorithm?</h1>
@@ -53,10 +47,7 @@
       </p>
 
       <div style="display: flex; justify-content: center; margin: 0 auto">
-        <img
-          src="../../assets/images/algo-dropdown.png"
-          style="margin: auto; border: 1px solid white"
-        />
+        <img src="../../assets/images/algo-dropdown.png" style="margin: auto; border: 1px solid white" />
       </div>
     </div>
     <div *ngIf="currentIndex == 3">
@@ -90,10 +81,7 @@
         If you want to access this tutorial again, press "T".
       </p>
       <div style="display: flex; justify-content: center; margin: 0 auto">
-        <img
-          src="../../assets/images/navbar.png"
-          style="margin: auto; border: 1px solid white"
-        />
+        <img src="../../assets/images/navbar.png" style="margin: auto; border: 1px solid white" />
       </div>
     </div>
     <div *ngIf="currentIndex == 6">
@@ -107,42 +95,16 @@
   <ng-template pTemplate="footer">
     <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
       <div style="display: flex">
-        <p-button
-
-        class="gutter"
-          icon="pi pi-times"
-          (click)="hideTutorial()"
-          label="Skip"
-          styleClass="p-button-success"
-        ></p-button>
+        <p-button class="gutter" icon="pi pi-times" (click)="hideTutorial()" label="Skip"
+          styleClass="p-button-success"></p-button>
       </div>
       <div style="display: flex; flex-wrap: wrap;">
-        <p-button
-
-        class="gutter"
-          *ngIf="currentIndex > 0"
-          icon="pi pi-arrow-left"
-          (click)="currentIndex = currentIndex - 1"
-          label="Previous"
-          styleClass="p-button-success"
-        ></p-button>
-        <p-button
-
-        class="gutter"
-          *ngIf="currentIndex < 6"
-          icon="pi pi-arrow-right"
-          (click)="currentIndex = currentIndex + 1"
-          label="Next"
-          styleClass="p-button-success"
-        ></p-button>
-        <p-button
-        class="gutter"
-          *ngIf="currentIndex >= 6"
-          icon="pi pi-arrow-right"
-          (click)="hideTutorial()"
-          label="Finish"
-          styleClass="p-button-success"
-        ></p-button>
+        <p-button class="gutter" *ngIf="currentIndex > 0" icon="pi pi-arrow-left"
+          (click)="currentIndex = currentIndex - 1" label="Previous" styleClass="p-button-success"></p-button>
+        <p-button class="gutter" *ngIf="currentIndex < 6" icon="pi pi-arrow-right"
+          (click)="currentIndex = currentIndex + 1" label="Next" styleClass="p-button-success"></p-button>
+        <p-button class="gutter" *ngIf="currentIndex >= 6" icon="pi pi-arrow-right" (click)="hideTutorial()"
+          label="Finish" styleClass="p-button-success"></p-button>
       </div>
     </div>
   </ng-template>
